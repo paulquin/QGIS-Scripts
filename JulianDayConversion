@@ -1,0 +1,17 @@
+from qgis.core import *
+from qgis.gui import *
+import calendar
+from PyQt5.QtCore import QDate
+
+###This function can be use in field calculator and takes in 2 variables, the year and the 3-digit Julain Day.
+###The output can be customized for individual use.
+
+@qgsfunction(args='auto', group='Custom')
+def JDcal(yr, jd, feature, parent):
+    month = 1
+    day = 0
+    while jd - calendar.monthrange(yr,month)[1] > 0 and month <= 12:
+        jd = jd - calendar.monthrange(yr,month)[1]
+        month = month + 1
+    fulldate = (str(yr) + '/' + str(month) + '/' + str(jd))
+    return QDate.fromString(fulldate, 'yyyy/MM/dd')
